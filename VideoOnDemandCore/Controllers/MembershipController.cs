@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using VideoOnDemandCore.Models;
 using AutoMapper;
 using VideoOnDemandCore.Repositories;
+using System.Collections.Generic;
+using VideoOnDemandCore.Models.DTOModels;
+using VideoOnDemandCore.Models.MembershipViewModels;
+using System.Linq;
 
 namespace VideoOnDemandCore.Controllers
 {
@@ -25,7 +29,16 @@ namespace VideoOnDemandCore.Controllers
         [HttpGet]
         public IActionResult Dashboard()
         {
-            return View();
+            var courseDtoObjects = _mapper.Map<List<CourseDTO>>(_db.GetCourses(_userId));
+            var dashboardModel = new DashboardViewModel();
+            dashboardModel.Courses = new List<List<CourseDTO>>();
+            var noOfRows = courseDtoObjects.Count <= 3 ? 1 : courseDtoObjects.Count / 3;
+            for (var i = 0; i < noOfRows; i++)
+            {
+                dashboardModel.Courses.Add(courseDtoObjects.Take(3).ToList());
+            }
+
+            return View(dashboardModel);
         }
 
         [HttpGet]
