@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using VideoOnDemandCore.Models;
+using VideoOnDemandCore.Repositories;
 
 namespace VideoOnDemandCore.Controllers
 {
@@ -19,6 +20,9 @@ namespace VideoOnDemandCore.Controllers
 
         public IActionResult Index()
         {
+            var rep = new MockReadRepository();
+            var courses = rep.GetCourses("40a9c4c5-b362-45bf-95fb-3b80eb2afcf4");
+
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
 
