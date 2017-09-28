@@ -14,6 +14,20 @@
 
   <ItemGroup>
     <Content Include="wwwroot\css\login.css" />
+    <Content Include="wwwroot\css\menu.css" />
+    <Content Include="wwwroot\images\avatar.png" />
+    <Content Include="wwwroot\images\course.jpg" />
+    <Content Include="wwwroot\images\course2.jpg" />
+    <Content Include="wwwroot\images\course3.jpg" />
+    <Content Include="wwwroot\images\Ice-Age-Scrat-icon.png" />
+    <Content Include="wwwroot\images\laptop.jpg" />
+    <Content Include="wwwroot\images\Logos\membership-icon-30x152.png" />
+    <Content Include="wwwroot\images\Logos\membership-icon-45x184.png" />
+    <Content Include="wwwroot\images\video1.jpg" />
+    <Content Include="wwwroot\images\video2.jpg" />
+    <Content Include="wwwroot\images\video3.jpg" />
+    <Content Include="wwwroot\images\video4.jpg" />
+    <Content Include="wwwroot\images\video5.jpg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
