@@ -58,3 +58,7 @@
 .membership h1, .membership h4 {
     color: #666c74;
 }
+
+hr.no-margin {
+    margin: 0;
+}
