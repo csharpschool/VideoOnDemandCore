@@ -141,6 +141,16 @@ namespace VideoOnDemandCore.Repositories
 
             return course;
         }
+        public Video GetVideo(string userId, int videoId)
+        {
+            var video = _videos
+               .Where(v => v.Id.Equals(videoId))
+               .Join(_userCourses, v => v.CourseId, uc => uc.CourseId,
+                    (v, uc) => new { Video = v, UserCourse = uc })
+               .Where(vuc => vuc.UserCourse.UserId.Equals(userId))
+               .FirstOrDefault().Video;
 
+            return video;
+        }
     }
 }
