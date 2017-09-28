@@ -24,6 +24,8 @@ namespace VideoOnDemandCore.Controllers
             var courses = rep.GetCourses("40a9c4c5-b362-45bf-95fb-3b80eb2afcf4");
             var course = rep.GetCourse("40a9c4c5-b362-45bf-95fb-3b80eb2afcf4", 1);
             var video = rep.GetVideo("40a9c4c5-b362-45bf-95fb-3b80eb2afcf4", 1);
+            var videos = rep.GetVideos("40a9c4c5-b362-45bf-95fb-3b80eb2afcf4");
+            var videosForModule = rep.GetVideos("40a9c4c5-b362-45bf-95fb-3b80eb2afcf4", 1);
 
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToAction("Login", "Account");
