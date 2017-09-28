@@ -1,0 +1,17 @@
+@model CourseDTO
+
+<div class="col-sm-4">
+    <div class="panel course-listing">
+        <img class="thumb" src="@Model.CourseImageUrl">
+        <div class="panel-body">
+            <h3 class="title text-dark">@Model.CourseTitle</h3>
+            <p class="desc">@Model.CourseDescription</p>
+            <div class="bottom-aligned">
+                <a class="btn btn-primary learn-more" href="~/Membership/Course/@Model.CourseId">
+                    View Course
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
