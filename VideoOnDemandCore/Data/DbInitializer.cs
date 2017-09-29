@@ -44,17 +44,17 @@ namespace VideoOnDemandCore.Data
             {
                 new Course { InstructorId = 1, Title = "Course 1",
                     Description = description,
-                    ImageUrl = "/images/course-small.jpg",
+                    ImageUrl = "/images/course.jpg",
                     MarqueeImageUrl = "/images/laptop.jpg"
                 },
                 new Course { InstructorId = 2, Title = "Course 2",
                     Description = description,
-                    ImageUrl = "/images/course-small.jpg",
+                    ImageUrl = "/images/course2.jpg",
                     MarqueeImageUrl = "/images/laptop.jpg"
                 },
                 new Course { InstructorId = 1, Title = "Course 3",
                     Description = description,
-                    ImageUrl = "/images/course-small.jpg",
+                    ImageUrl = "/images/course3.jpg",
                     MarqueeImageUrl = "/images/laptop.jpg"
                 }
             };
