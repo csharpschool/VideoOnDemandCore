@@ -46,6 +46,7 @@ namespace VideoOnDemandCore.Controllers
         // GET: Downloads/Create
         public IActionResult Create()
         {
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "Id", "Title");
             return View();
         }
 
@@ -62,6 +63,9 @@ namespace VideoOnDemandCore.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "Id", "Title");
+
             return View(download);
         }
 
@@ -78,6 +82,9 @@ namespace VideoOnDemandCore.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "Id", "Title");
+
             return View(download);
         }
 
@@ -113,6 +120,9 @@ namespace VideoOnDemandCore.Controllers
                 }
                 return RedirectToAction("Index");
             }
+
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "Id", "Title");
+
             return View(download);
         }
 
