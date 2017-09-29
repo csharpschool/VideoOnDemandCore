@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
 using System.Threading.Tasks;
 using VideoOnDemandCore.Data;
+using VideoOnDemandCore.Entities;
 using VideoOnDemandCore.Models;
 using VideoOnDemandCore.Models.DTOModels;
 
@@ -14,12 +15,12 @@ namespace VideoOnDemandCore.Controllers
     public class UserCoursesController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private readonly UserStore<ApplicationUser, IdentityRole, ApplicationDbContext> _userStore;
+        //private readonly UserStore<ApplicationUser, IdentityRole, ApplicationDbContext> _userStore;
 
         public UserCoursesController(UserStore<ApplicationUser, IdentityRole, ApplicationDbContext> userStore)
         {
             _db = userStore.Context;
-            _userStore = userStore;
+            //_userStore = userStore;
         }
 
         public IActionResult Index()
@@ -31,9 +32,7 @@ namespace VideoOnDemandCore.Controllers
                     CourseId = s.Courses.Id,
                     CourseTitle = s.Courses.Title,
                     UserId = s.UserCourses.UserId,
-                    UserEmail =
-                        _userStore.Users.FirstOrDefault(u =>
-                            u.Id.Equals(s.UserCourses.UserId)).Email
+                    UserEmail = _db.Users.FirstOrDefault(u => u.Id.Equals(s.UserCourses.UserId)).Email
                 });
 
             return View(model);
@@ -53,7 +52,7 @@ namespace VideoOnDemandCore.Controllers
                     CourseId = s.Courses.Id,
                     CourseTitle = s.Courses.Title,
                     UserId = s.UserCourses.UserId,
-                    UserEmail = _userStore.Users.FirstOrDefault(u =>
+                    UserEmail = _db.Users.FirstOrDefault(u =>
                         u.Id.Equals(s.UserCourses.UserId)).Email
                 })
                 .FirstOrDefaultAsync(w => w.CourseId.Equals(courseId) &&
@@ -70,7 +69,32 @@ namespace VideoOnDemandCore.Controllers
         public IActionResult Create()
         {
             ViewData["CourseId"] = new SelectList(_db.Courses, "Id", "Title");
-            ViewData["UserId"] = new SelectList(_userStore.Users, "Id", "Email");
+            ViewData["UserId"] = new SelectList(_db.Users, "Id", "Email");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("UserId,CourseId")] UserCourse userCourse)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _db.Add(userCourse);
+                    await _db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    ModelState.AddModelError("",
+                        "That combination already exist.");
+                }
+            }
+
+            ViewData["CourseId"] = new SelectList(_db.Courses, "Id", "Title", userCourse.CourseId);
+            ViewData["UserId"] = new SelectList(_db.Users, "Id", "Email");
+
             return View();
         }
 
