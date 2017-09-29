@@ -98,5 +98,26 @@ namespace VideoOnDemandCore.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Edit(string userId, int courseId)
+        {
+            if (userId == null || courseId.Equals(default(int)))
+            {
+                return NotFound();
+            }
+
+            var model = await _db.UserCourses.SingleOrDefaultAsync(m =>
+                m.UserId.Equals(userId) && m.CourseId.Equals(courseId));
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["CourseId"] = new SelectList(_db.Courses, "Id", "Title");
+            ViewData["UserId"] = new SelectList(_db.Users, "Id", "Email");
+
+            return View(model);
+        }
+
     }
 }
