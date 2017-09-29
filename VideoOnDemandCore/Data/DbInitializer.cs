@@ -72,7 +72,6 @@ namespace VideoOnDemandCore.Data
                     CourseId = 3
                 }
             };
-
             context.UserCourses.AddRange(userCourses);
             context.SaveChanges();
 
@@ -82,37 +81,36 @@ namespace VideoOnDemandCore.Data
                 new Entities.Module { CourseId = 1, Title = "Modeule 2" },
                 new Entities.Module { CourseId = 2, Title = "Modeule 3" }
             };
-
             context.Modules.AddRange(modules);
             context.SaveChanges();
 
             var videos = new List<Video>
             {
-                new Video { Id = 1, ModuleId = 1, CourseId = 1,
+                new Video { ModuleId = 1, CourseId = 1,
                     Position = 1, Title = "Video 1 Title",
                     Description = description.Substring(10, 40), Duration = 50,
                     Thumbnail = "/images/video1.jpg",
                     Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
                 },
-                new Video { Id = 2, ModuleId = 1, CourseId = 1, Position = 2,
+                new Video { ModuleId = 1, CourseId = 1, Position = 2,
                     Title = "Video 2 Title",
                     Description = description.Substring(20, 40),
                     Duration = 45, Thumbnail = "/images/video2.jpg",
                     Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
                 },
-                new Video { Id = 3, ModuleId = 1, CourseId = 1, Position = 3,
+                new Video { ModuleId = 1, CourseId = 1, Position = 3,
                     Title = "Video 3 Title",
                     Description = description.Substring(30, 40),
                     Duration = 41, Thumbnail = "/images/video3.jpg",
                     Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
                 },
-                new Video { Id = 4, ModuleId = 3, CourseId = 2, Position = 1,
+                new Video { ModuleId = 3, CourseId = 2, Position = 1,
                     Title = "Video 4 Title",
                     Description = description.Substring(40, 40),
                     Duration = 41, Thumbnail = "/images/video4.jpg",
                     Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
                 },
-                new Video { Id = 5, ModuleId = 2, CourseId = 1, Position = 1,
+                new Video { ModuleId = 2, CourseId = 1, Position = 1,
                     Title = "Video 5 Title",
                     Description = description.Substring(10, 40),
                     Duration = 42, Thumbnail = "/images/video5.jpg",
