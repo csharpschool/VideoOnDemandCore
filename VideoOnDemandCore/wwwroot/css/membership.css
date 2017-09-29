@@ -62,3 +62,7 @@
 hr.no-margin {
     margin: 0;
 }
+
+.membership.top-margin {
+    margin-top: 35px;
+}
