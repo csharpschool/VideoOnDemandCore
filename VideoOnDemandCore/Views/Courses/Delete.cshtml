@@ -46,8 +46,8 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Delete" class="btn btn-default" /> 
+            <button-container controller="@ViewContext.RouteData.Values["controller"].ToString()" actions="Index" descriptions="Back to List"></button-container>
         </div>
     </form>
 </div>

@@ -28,5 +28,5 @@
 
     <a asp-action="Edit" asp-route-courseId="@Model.CourseId"
        asp-route-userId="@Model.UserId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <button-container controller="@ViewContext.RouteData.Values["controller"].ToString()" actions="Index" descriptions="Back to List"></button-container>
 </form>

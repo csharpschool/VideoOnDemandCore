@@ -6,7 +6,9 @@
 
 <h2 class="admin-top-margin">Index</h2>
 
-<p><a asp-action="Create">Create New</a></p>
+<p>
+    <button-container controller="@ViewContext.RouteData.Values["controller"].ToString()" actions="Create" descriptions="Create New"></button-container>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -22,15 +24,10 @@
                 <td>@Html.DisplayFor(modelItem => item.CourseTitle)</td>
                 <td>@Html.DisplayFor(modelItem => item.UserEmail)</td>
                 <td class="button-col-width">
-                    <a asp-action="Edit"
-                       asp-route-courseId="@item.CourseId"
-                       asp-route-userId="@item.UserId">Edit</a> |
-                    <a asp-action="Details"
-                       asp-route-courseId="@item.CourseId"
-                       asp-route-userId="@item.UserId">Details</a> |
-                    <a asp-action="Delete"
-                       asp-route-courseId="@item.CourseId"
-                       asp-route-userId="@item.UserId">Delete</a>
+                    <button-container controller="@ViewContext.RouteData.Values["controller"].ToString()"
+                                      actions="Edit,Details,Delete" use-glyphs="true"
+                                      id-userId="@item.UserId" id-courseId="@item.CourseId">
+                    </button-container>
                 </td>
             </tr>
         }
