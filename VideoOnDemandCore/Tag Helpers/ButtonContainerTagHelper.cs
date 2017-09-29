@@ -17,27 +17,23 @@ namespace VideoOnDemandCore.Tag_Helpers
         public string Descriptions { get; set; }
         #endregion
 
-        public override void Process(TagHelperContext context,
-        TagHelperOutput output)
+        public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (output == null)
-                throw new ArgumentNullException(nameof(output));
+            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (output == null) throw new ArgumentNullException(nameof(output));
 
             base.Process(context, output);
 
             // Replaces <button-container> with <span> tag
             output.TagName = "span";
-            output.Content.SetHtmlContent(
-                "<span style='min-width:100px; display:inline-block;'>");
+            output.Content.SetHtmlContent("<span style='min-width:100px; display:inline-block;'>");
 
             var href = "";
 
             var actions = Actions.Split(',');
-            var descriptions = Descriptions != null ?
-                Descriptions.Split(',') :
+            var descriptions = Descriptions != null ? Descriptions.Split(',') :
                 new string[0];
+            var ids = context.AllAttributes.Where(c => c.Name.StartsWith("id"));
 
             foreach (var action in actions)
             {
@@ -45,15 +41,27 @@ namespace VideoOnDemandCore.Tag_Helpers
                 {
                     if (action != null && action.Length > 0)
                         href = $@"href='/admin/{Controller}/{action}'";
-                    else href = $@"href='/admin/{Controller}/Index'";
+                    else
+                        href = $@"href='/admin/{Controller}/Index'";
                 }
 
                 var description = action;
                 if (descriptions.Length >= actions.Length)
-                    description = descriptions[Array.IndexOf(
-                        actions, action)];
-
+                    description = descriptions[Array.IndexOf(actions, action)];
                 if (description.Length.Equals(0)) description = action;
+
+                var param = "";
+                foreach (var id in ids)
+                {
+                    var splitId = id.Name.Split('-');
+                    if (splitId.Length.Equals(1)) param = $"Id={id.Value}";
+                    if (splitId.Length.Equals(2))
+                        param += $"&{splitId[1]}={id.Value}";
+                    if (param.StartsWith("&")) param = param.Substring(1);
+                }
+                if (param.Length > 0)
+                    href = href.Insert(href.Length - 1, $"?{param}");
+
 
                 output.Content.AppendHtml($@"<a {href}>{description}</a>");
             }
