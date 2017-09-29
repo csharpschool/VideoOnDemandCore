@@ -183,5 +183,17 @@ namespace VideoOnDemandCore.Controllers
             return View(model);
         }
 
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string userId, int courseId)
+        {
+            var userCourse = await _db.UserCourses.SingleOrDefaultAsync(m =>
+                m.UserId.Equals(userId) && m.CourseId.Equals(courseId));
+
+            _db.UserCourses.Remove(userCourse);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }
