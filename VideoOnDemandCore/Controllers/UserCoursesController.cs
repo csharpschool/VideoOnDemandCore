@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
@@ -64,6 +65,13 @@ namespace VideoOnDemandCore.Controllers
             }
 
             return View(model);
+        }
+
+        public IActionResult Create()
+        {
+            ViewData["CourseId"] = new SelectList(_db.Courses, "Id", "Title");
+            ViewData["UserId"] = new SelectList(_userStore.Users, "Id", "Email");
+            return View();
         }
 
     }
