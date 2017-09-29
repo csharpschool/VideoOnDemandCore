@@ -36,7 +36,20 @@ namespace VideoOnDemandCore.Repositories
 
         public Course GetCourse(string userId, int courseId)
         {
-            throw new NotImplementedException();
+            var course = _db.UserCourses.Where(uc => uc.UserId.Equals(userId))
+                .Join(_db.Courses, uc => uc.CourseId, c => c.Id, (uc, c) => new { Course = c })
+                .SingleOrDefault(s => s.Course.Id.Equals(courseId)).Course;
+
+            course.Instructor = _db.Instructors.SingleOrDefault(s => s.Id.Equals(course.InstructorId));
+            course.Modules = _db.Modules.Where(m => m.CourseId.Equals(course.Id)).ToList();
+
+            foreach (var module in course.Modules)
+            {
+                module.Downloads = _db.Downloads.Where(d => d.ModuleId.Equals(module.Id)).ToList();
+                module.Videos = _db.Videos.Where(v => v.ModuleId.Equals(module.Id)).ToList();
+            }
+
+            return course;
         }
 
         public Video GetVideo(string userId, int videoId)
