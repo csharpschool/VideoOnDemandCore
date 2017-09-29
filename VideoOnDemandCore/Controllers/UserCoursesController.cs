@@ -119,5 +119,43 @@ namespace VideoOnDemandCore.Controllers
             return View(model);
         }
 
+        private bool UserCourseExists(string userId, int courseId)
+        {
+            return _db.UserCourses.Any(e => e.UserId.Equals(userId) && e.CourseId.Equals(courseId));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string originalUserId, int originalCourseId, [Bind("UserId,CourseId")] UserCourse userCourse)
+        {
+            if (originalUserId == null || originalCourseId.Equals(default(int)))
+            {
+                return NotFound();
+            }
+
+            var orignalUserCourse = await _db.UserCourses
+                .SingleOrDefaultAsync(c => c.UserId.Equals(originalUserId) &&
+                    c.CourseId.Equals(originalCourseId));
+
+            if (!UserCourseExists(userCourse.UserId, userCourse.CourseId))
+            {
+                try
+                {
+                    _db.Remove(orignalUserCourse);
+                    _db.Add(userCourse);
+                    await _db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch {
+                }
+            }
+
+            ModelState.AddModelError("", "Unable to save changes.");
+            ViewData["CourseId"] = new SelectList(_db.Courses, "Id", "Title", userCourse.CourseId);
+            ViewData["UserId"] = new SelectList(_db.Users, "Id", "Email");
+
+            return View(userCourse);
+        }
+
     }
 }
