@@ -54,12 +54,24 @@ namespace VideoOnDemandCore.Repositories
 
         public Video GetVideo(string userId, int videoId)
         {
-            throw new NotImplementedException();
+            var video = _db.Videos
+                .Where(v => v.Id.Equals(videoId))
+                .Join(_db.UserCourses, v => v.CourseId, uc => uc.CourseId, (v, uc) => new { Video = v, UserCourse = uc })
+                .Where(vuc => vuc.UserCourse.UserId.Equals(userId))
+                .FirstOrDefault().Video;
+
+            return video;
         }
 
         public IEnumerable<Video> GetVideos(string userId, int moduleId = 0)
         {
-            throw new NotImplementedException();
+            var videos = _db.Videos
+                .Join(_db.UserCourses, v => v.CourseId, uc => uc.CourseId, (v, uc) => new { Video = v, UserCourse = uc })
+                .Where(vuc => vuc.UserCourse.UserId.Equals(userId));
+
+            return moduleId.Equals(0) ?
+                videos.Select(s => s.Video) :
+                videos.Where(v => v.Video.ModuleId.Equals(moduleId)).Select(s => s.Video);
         }
     }
 }
